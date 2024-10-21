@@ -1,91 +1,171 @@
-Jarvis AI Assistant
+# Jarvis AI Assistant
 
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Python Version](https://img.shields.io/badge/python-3.10-blue.svg)
 
-Jarvis is a personal AI assistant project designed to help you interact with your computer using natural language commands. Built with a focus on machine learning and leveraging powerful libraries like PyTorch, Jarvis integrates speech recognition, natural language understanding, and text-to-speech functionalities to provide a seamless user experience.
-Table of Contents
+## Overview
 
-    Features
-    Architecture
-    Installation
-        Prerequisites
-        Setup
-    Usage
-        ASR Server
-        ASR Client (Windows)
-        TTS Server
-    Environment Variables
-    Dependencies
-    Docker
-    Contributing
-    License
+Jarvis is an AI Assistant developed as a personal project to deepen understanding of machine learning and natural language processing. Built with PyTorch, Jarvis leverages various technologies to provide functionalities such as speech recognition, text-to-speech, information retrieval, and more. This project serves as a comprehensive learning tool for enthusiasts looking to explore the capabilities of AI assistants.
 
-Features
+## Features
 
-    Wake Word Detection: Listens for the wake word "Jarvis" to activate.
-    Automatic Speech Recognition (ASR): Converts spoken commands into text using Vosk.
-    Natural Language Understanding: Processes commands to perform tasks like fetching weather, news, or executing system operations.
-    Text-to-Speech (TTS): Responds with synthesized speech using Azure Cognitive Services.
-    Memory Management: Maintains conversation history for context-aware interactions.
-    Extensible Architecture: Easily add new functionalities and integrations.
+- **Automatic Speech Recognition (ASR):** Converts spoken language into text using Vosk.
+- **Natural Language Processing (NLP):** Processes and understands commands using Hugging Face Transformers.
+- **Text-to-Speech (TTS):** Synthesizes speech from text using Azure Cognitive Services.
+- **Information Retrieval:** Fetches information from Wikipedia, news APIs, and performs web searches.
+- **Custom Memory Management:** Remembers user interactions for contextually relevant responses.
+- **Cross-Platform Compatibility:** Runs on both Windows and WSL environments.
 
-Architecture
+## Table of Contents
 
+- [Overview](#overview)
+- [Features](#features)
+- [Requirements](#requirements)
+- [Installation](#installation)
+  - [1. Clone the Repository](#1-clone-the-repository)
+  - [2. Create a Virtual Environment](#2-create-a-virtual-environment)
+  - [3. Install Dependencies](#3-install-dependencies)
+  - [4. Install Apex](#4-install-apex)
+  - [5. Install Vosk](#5-install-vosk)
+  - [6. Download Required Models](#6-download-required-models)
+    - [a. Vosk Models](#a-vosk-models)
+    - [b. TTS Models](#b-tts-models)
+  - [7. Set Up Environment Variables](#7-set-up-environment-variables)
+- [Usage](#usage)
+  - [Running ASR Server (WSL)](#running-asr-server-wsl)
+  - [Running Windows Listener](#running-windows-listener)
+- [File Structure](#file-structure)
+- [Important Notes](#important-notes)
+- [Contributing](#contributing)
+- [License](#license)
+- [Acknowledgements](#acknowledgements)
+- [Contact](#contact)
 
-The Jarvis AI Assistant consists of several components working together:
+## Requirements
 
-    ASR Server (asr_server.py): Handles incoming text commands, processes them using machine learning models, and generates responses.
-    ASR Client (asr_windows.py): Listens for the wake word, captures audio input, and communicates with the ASR Server.
-    Info Retriever (info_retriever): Fetches and processes information from various sources like Wikipedia, News API, and SerpAPI.
-    TTS Server (tts_server.py): Converts text responses into speech using Azure Text-to-Speech.
-    Docker Container: Containerizes the TTS Server for easy deployment.
+Before setting up Jarvis, ensure you have the following installed on your system:
 
-Installation
-Prerequisites
+- **Python 3.10:** [Download Python](https://www.python.org/downloads/)
+- **WSL (Windows Subsystem for Linux):** [Install WSL](https://docs.microsoft.com/en-us/windows/wsl/install)
+- **Docker (Optional):** [Get Docker](https://www.docker.com/get-started)
+- **Virtualenv:** For creating isolated Python environments. Install via pip:
 
-    Python 3.10+
-    WSL (Windows Subsystem for Linux) for running the ASR Server on Windows.
-    Virtual Environment: Recommended to manage dependencies.
-    Azure Cognitive Services Account: For Text-to-Speech capabilities.
-    Hugging Face Account: For accessing language models.
-    Vosk Model: Download a suitable Vosk model for ASR.
+    ```bash
+    pip install virtualenv
+    ```
 
-Setup
+## Installation
 
-    Clone the Repository
+### 1. Clone the Repository
 
-    bash
-
+```bash
 git clone https://github.com/yourusername/jarvis-ai-assistant.git
 cd jarvis-ai-assistant
+```
+2. Create a Virtual Environment
 
-Create and Activate Virtual Environment
+It's recommended to use a virtual environment to manage dependencies.
 
 bash
 
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-Install Dependencies
+Activate the virtual environment:
+
+On Windows:
 
 bash
 
-    pip install --upgrade pip
-    pip install -r requirements.txt
+venv\Scripts\activate
 
-    Download Vosk Model
+On WSL/Linux:
 
-    Download a Vosk model from Vosk Models and extract it to C:/Users/user/Desktop/Jarvis/vosk-model/vosk.
+bash
 
-Usage
-ASR Server
+source venv/bin/activate
 
-The ASR Server handles processing of text commands and generating responses.
+3. Install Dependencies
 
-    Configure Environment Variables
+Install the required Python packages using pip:
 
-    Create a .env file in the project root with the following variables:
+bash
 
-    env
+pip install --upgrade pip setuptools wheel
+pip install -r requirements.txt
+
+Note: The apex package is excluded from requirements.txt due to its large size and specific installation requirements. Follow the instructions below to install Apex manually.
+4. Install Apex
+
+Apex is a PyTorch extension for mixed precision and distributed training. It must be installed manually.
+
+Installation Steps:
+
+Clone the Apex Repository:
+
+bash
+
+git clone https://github.com/NVIDIA/apex.git
+cd apex
+
+Install Apex:
+
+bash
+
+pip install -v --disable-pip-version-check --no-cache-dir ./
+
+Note: Ensure that your CUDA version is compatible with the Apex version you are installing. Refer to the Apex GitHub for detailed installation instructions and requirements.
+5. Install Vosk
+
+Vosk is used for offline speech recognition.
+
+bash
+
+pip install vosk==0.3.45
+
+6. Download Required Models
+
+Jarvis requires specific models for speech recognition and text-to-speech functionalities. Due to their large sizes, these models are not included in the repository.
+a. Vosk Models
+
+Download Link: Vosk Models (replace with actual link)
+
+Setup:
+
+    Download the desired Vosk model (e.g., vosk-model-small-en-us-0.15.zip).
+
+    Extract the contents.
+
+    Place the extracted folder inside the vosk directory of the project:
+
+    Jarvis-AI-Assistant/
+    ├── vosk/
+    │   └── vosk-model-small-en-us-0.15/
+
+b. TTS Models
+
+Jarvis uses tacotron2.nemo and waveglow.nemo for text-to-speech.
+
+Download Links:
+
+    Tacotron2 Nemo Model (replace with actual link)
+    WaveGlow Nemo Model (replace with actual link)
+
+Setup:
+
+    Download both .nemo files.
+
+    Place them in the following directory:
+
+    makefile
+
+    C:\Users\user\Desktop\Jarvis\docker_tts\models\
+
+Note: Adjust the path according to your system's directory structure if necessary.
+7. Set Up Environment Variables
+
+Create a .env file in the root directory of the project and add the following variables:
+
+env
 
 HUGGINGFACE_HUB_TOKEN=your_huggingface_token
 AZURE_SPEECH_KEY=your_azure_speech_key
@@ -94,94 +174,88 @@ OPENWEATHER_API_KEY=your_openweather_api_key
 NEWSAPI_KEY=your_newsapi_key
 SERPAPI_API_KEY=your_serpapi_api_key
 
-Run the ASR Server
+Replace the placeholder values with your actual API keys.
+Usage
+Running ASR Server (WSL)
+
+The ASR server handles automatic speech recognition and runs on WSL.
+
+    Activate the Virtual Environment:
+
+    bash
+
+source venv/bin/activate
+
+Navigate to the Project Directory:
+
+bash
+
+cd path/to/jarvis-ai-assistant
+
+Run the ASR Server:
 
 bash
 
     python asr_server.py
 
-    Note: Ensure you are using WSL and have activated the virtual environment.
+Note: Ensure you are using WSL and have activated the virtual environment before running the server.
+Running Windows Listener
 
-ASR Client (Windows)
+The Windows listener listens for the wake word and sends commands to the ASR server.
 
-The ASR Client listens for the wake word and sends commands to the ASR Server.
+    Open Command Prompt:
 
-    Configure Wake Word Detection
-
-    Replace the access_key in asr_windows.py with your Picovoice Porcupine access key.
-
-    Run the ASR Client
-
-    Open Command Prompt, navigate to the project directory, activate the virtual environment, and run:
+    Navigate to the directory containing asr_windows.py:
 
     cmd
 
+cd C:\Users\user\Desktop\Jarvis\asr_windows
+
+Run the Windows Listener:
+
+cmd
+
     python asr_windows.py
 
-TTS Server
+The listener will wait for the wake word ("jarvis") and process subsequent voice commands.
+File Structure
 
-The TTS Server converts text responses into speech using Azure Cognitive Services.
+plaintext
 
-    Configure Azure TTS
+Jarvis-AI-Assistant/
+├── asr_server.py
+├── asr_windows.py
+├── info_retriever/
+│   └── info_retriever.py
+├── docker_tts/
+│   ├── Dockerfile
+│   ├── tts_server.py
+│   └── models/
+│       ├── tacotron2.nemo
+│       └── waveglow.nemo
+├── requirements.txt
+├── .env
+├── apex/ (Not included, install manually)
+├── vosk/ (Not included, install and add models manually)
+└── README.md
 
-    Update tts_server.py with your Azure Speech Key and Region:
+Important Notes
 
-    python
+    Apex Folder: The apex folder is excluded from the repository due to its large size. Users must install Apex manually by following the instructions in the Apex GitHub Repository.
 
-AZURE_SPEECH_KEY = "YOUR_AZURE_SPEECH_KEY"
-AZURE_SERVICE_REGION = "YOUR_SERVICE_REGION"
+    Vosk Folder: The vosk folder containing the speech recognition models is not included. Users need to download the appropriate Vosk models and place them in the vosk directory as outlined in the Installation section.
 
-Run the TTS Server
+    Virtual Environment: It is highly recommended to create and activate a virtual environment before installing dependencies to avoid conflicts with other projects.
 
-bash
-
-    python tts_server.py
-
-Environment Variables
-
-Ensure the following environment variables are set in your .env file:
-
-    HUGGINGFACE_HUB_TOKEN: Token for accessing Hugging Face models.
-    AZURE_SPEECH_KEY: Azure Cognitive Services Speech API key.
-    AZURE_SERVICE_REGION: Azure Cognitive Services region.
-    OPENWEATHER_API_KEY: API key for OpenWeather.
-    NEWSAPI_KEY: API key for NewsAPI.
-    SERPAPI_API_KEY: API key for SerpAPI.
-
-Dependencies
-
-All dependencies are listed in requirements.txt. Key libraries include:
-
-    Machine Learning & NLP: torch, transformers, accelerate
-    ASR & TTS: vosk, pyaudio, azure-cognitiveservices-speech
-    Web Framework: fastapi, uvicorn
-    Utilities: aiohttp, beautifulsoup4, requests, numpy, pydub
-
-Docker
-
-A Dockerfile is provided to containerize the TTS Server.
-
-    Build the Docker Image
-
-    bash
-
-docker build -t jarvis-tts-server .
-
-Run the Docker Container
-
-bash
-
-    docker run -d -p 50051:50051 --name jarvis-tts jarvis-tts-server
-
-    The container exposes port 50051 for TTS requests and includes a health check endpoint.
+    Model Downloads: Both tacotron2.nemo and waveglow.nemo are large files and are not included in the repository. Users must download these models from the provided links and place them in the specified directory.
 
 Contributing
 
-Contributions are welcome! Please follow these steps:
+Contributions are welcome! Whether it's improving documentation, fixing bugs, or adding new features, your input is valuable. Please follow these steps to contribute:
 
     Fork the Repository
 
-    Create a Feature Branch
+    Create a New Branch
 
     bash
 
@@ -191,7 +265,7 @@ Commit Your Changes
 
 bash
 
-git commit -m "Add your feature"
+git commit -m "Add Your Feature"
 
 Push to the Branch
 
@@ -199,19 +273,21 @@ bash
 
     git push origin feature/YourFeature
 
-    Create a Pull Request
+    Open a Pull Request
 
 License
 
-This project is licensed under the MIT License.
-
-Developed with ❤️ by Fabian.
+This project is licensed under the MIT License. You are free to use, modify, and distribute this software as per the license terms.
 Acknowledgements
 
+    PyTorch
+    Transformers by Hugging Face
     Vosk
     Azure Cognitive Services
-    Hugging Face
-    Picovoice Porcupine
     SerpAPI
     NewsAPI
-
+    Apex by NVIDIA
+    Wikipedia API
+    BeautifulSoup
+    FastAPI
+    Docker
