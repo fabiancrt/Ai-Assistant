@@ -276,7 +276,7 @@ bash
 
 License
 
-This project is licensed under the MIT License. You are free to use, modify, and distribute this software as per the license terms.
+This project is licensed under a special License.
 Acknowledgements
 
     PyTorch
