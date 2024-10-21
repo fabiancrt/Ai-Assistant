@@ -1,0 +1,5 @@
+{
+    "tts_config": "vits/configs/ljs_base.json",
+    "tts_model": "vits/pretrained_ljs.pth",
+    "asr_model": "vosk-model/vosk"
+}
